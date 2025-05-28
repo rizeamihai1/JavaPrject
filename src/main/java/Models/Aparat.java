@@ -51,5 +51,8 @@ public class Aparat {;
     public void setDisponibilitate(String disponibilitate) {
         this.disponibilitate = disponibilitate;
     }
+    public void setId_aparat(int id_aparat) {
+        this.id_aparat = id_aparat;
+    }
 
 }

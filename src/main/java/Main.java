@@ -30,7 +30,9 @@ public class Main {
                 System.out.println("16. Afiseaza toate facturile");
                 System.out.println("17. Afiseaza toate produsele sortate descrescator dupa pret");
                 System.out.println("18. Grupare facturi in functie de suma intr-un HashMap");
-                System.out.println("19. Iesire");
+                System.out.println("19. Sterge un aparat");
+                System.out.println("20. Actualizeaza un client");
+                System.out.println("21. Iesire");
                 System.out.print("Alege optiunea: ");
                 int option = scanner.nextInt();
                 scanner.nextLine(); // curata linia
@@ -55,7 +57,7 @@ public class Main {
                     case 2: // Afiseaza aparate
                         List<Aparat> aparate = appService.getAllAparate();
                         for (Aparat a : aparate) {
-                            System.out.println(a.getId_aparat() + " - " + a.getNume());
+                            System.out.println(a.getId_aparat() + " - " + a.getNume() + " - " + a.getMasa_maxima() + " kg - " + a.getDisponibilitate() + " - " + a.getGrupaMuscularaLucrata());
                         }
                         AuditLog.log("Afisare aparate");
                         break;
@@ -77,7 +79,7 @@ public class Main {
                     case 4: // Afiseaza clienti
                         List<Client> clienti = appService.getAllClients();
                         for (Client c : clienti) {
-                            System.out.println(c.getIdClient() + " - " + c.getNume());
+                            System.out.println(c.getIdClient() + " - " + c.getNume() + " " + c.getPrenume() + " - " + c.getEmail() + " - " + c.getNrTelefon());
                         }
                         AuditLog.log("Afisare clienti");
                         break;
@@ -265,7 +267,44 @@ public class Main {
                         AuditLog.log("Grupare facturi in functie de suma intr-un HashMap");
                         break;
 
-                    case 19: // Iesire
+                    case 19: // Sterge aparat
+                        System.out.print("ID aparat de sters: ");
+                        int idAparat = scanner.nextInt();
+                        scanner.nextLine();
+                        appService.deleteAparat(idAparat);
+                        System.out.println("Aparatul a fost sters cu succes.");
+                        AuditLog.log("Stergere aparat cu ID: " + idAparat);
+
+                        break;
+                    case 20: // Update client
+                        System.out.print("ID client de actualizat: ");
+                        int idClientUpdate = scanner.nextInt();
+                        scanner.nextLine();
+                        Client clientUpdate = appService.getClientById(idClientUpdate);
+                        if (clientUpdate != null) {
+                            System.out.print("Nume nou: ");
+                            String numeNou = scanner.nextLine();
+                            System.out.print("Prenume nou: ");
+                            String prenumeNou = scanner.nextLine();
+                            System.out.print("Email nou: ");
+                            String emailNou = scanner.nextLine();
+                            System.out.print("Nr telefon nou: ");
+                            String telefonNou = scanner.nextLine();
+
+                            clientUpdate.setNume(numeNou);
+                            clientUpdate.setPrenume(prenumeNou);
+                            clientUpdate.setEmail(emailNou);
+                            clientUpdate.setNrTelefon(telefonNou);
+
+                            appService.updateClient(clientUpdate);
+                            System.out.println("Clientul a fost actualizat cu succes.");
+                        } else {
+                            System.out.println("Clientul cu ID-ul specificat nu exista.");
+                        }
+                        AuditLog.log("Actualizare client cu ID: " + idClientUpdate);
+                        break;
+
+                    case 21: // Iesire
                         running = false;
                         AuditLog.log("Iesire din aplicatie");
                         break;

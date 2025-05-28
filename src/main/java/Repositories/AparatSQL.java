@@ -71,6 +71,7 @@ public class AparatSQL implements AparatRepo {
                     rs.getString("disponibilitate"),
                     rs.getString("grupa_musculara_lucrata")
             );
+            aparat.setId_aparat(rs.getInt("id_aparat"));
             lista.add(aparat);
         }
         conn.close();
